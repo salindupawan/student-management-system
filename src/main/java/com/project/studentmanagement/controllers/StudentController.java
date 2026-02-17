@@ -2,6 +2,7 @@ package com.project.studentmanagement.controllers;
 
 import com.project.studentmanagement.entities.Student;
 import com.project.studentmanagement.services.StudentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,12 +26,12 @@ public class StudentController {
     }
 
     @PostMapping
-    public Student createStudent(@RequestBody Student student){
+    public Student createStudent(@Valid @RequestBody Student student){
         return studentService.createStudent(student);
     }
 
     @PutMapping("/{id}")
-    public Student updateStudent(@PathVariable Long id, @RequestBody Student student){
+    public Student updateStudent(@PathVariable Long id, @Valid @RequestBody Student student){
         return studentService.updateStudent(id, student);
     }
 
