@@ -4,6 +4,8 @@ import com.project.studentmanagement.entities.Course;
 import com.project.studentmanagement.repositories.CourseRepository;
 import com.project.studentmanagement.services.CourseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +17,8 @@ public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
 
     @Override
-    public List<Course> getCourses() {
-        return courseRepository.findAll();
+    public Page<Course> getCourses(Pageable pageable) {
+        return courseRepository.findAll(pageable);
     }
 
     @Override

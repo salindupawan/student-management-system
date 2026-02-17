@@ -4,6 +4,10 @@ import com.project.studentmanagement.entities.Course;
 import com.project.studentmanagement.services.CourseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,8 +19,8 @@ public class CourseController {
     private final CourseService courseService;
 
     @GetMapping
-    public List<Course> getAllCourses(){
-        return courseService.getCourses();
+    public Page<Course> getAllCourses(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
+        return courseService.getCourses(pageable);
     }
 
     @GetMapping("/{id}")
