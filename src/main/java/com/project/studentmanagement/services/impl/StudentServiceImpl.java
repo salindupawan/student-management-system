@@ -4,6 +4,8 @@ import com.project.studentmanagement.entities.Student;
 import com.project.studentmanagement.repositories.StudentRepository;
 import com.project.studentmanagement.services.StudentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,13 +17,21 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
 
     @Override
-    public List<Student> getStudents() {
-        return studentRepository.findAll();
+    public Page<Student> getStudents(String keyword,Pageable pageable) {
+        if(keyword != null && !keyword.isEmpty()){
+            return studentRepository.findByFirstNameContainingIgnoreCase(keyword, pageable);
+        }
+        return studentRepository.findAll(pageable);
     }
 
     @Override
     public Student getStudentById(Long id) {
         return studentRepository.findById(id).orElseThrow(()-> new RuntimeException("Student not found"));
+    }
+
+    @Override
+    public Student getStudentByEmail(String email) {
+        return studentRepository.findByEmail(email).orElseThrow(()-> new RuntimeException("Student not found"));
     }
 
     @Override

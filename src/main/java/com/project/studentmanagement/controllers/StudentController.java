@@ -2,7 +2,12 @@ package com.project.studentmanagement.controllers;
 
 import com.project.studentmanagement.entities.Student;
 import com.project.studentmanagement.services.StudentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,8 +20,13 @@ public class StudentController {
     private final StudentService studentService;
 
     @GetMapping()
-    public List<Student> getStudents() {
-        return studentService.getStudents();
+    public Page<Student> getStudents(@RequestParam(required = false) String search, @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
+        return studentService.getStudents(search,pageable);
+    }
+
+    @GetMapping("/search")
+    public Student getStudentByEmail(@RequestParam String email) {
+        return studentService.getStudentByEmail(email);
     }
 
     @GetMapping("/{id}")
@@ -25,12 +35,12 @@ public class StudentController {
     }
 
     @PostMapping
-    public Student createStudent(@RequestBody Student student){
+    public Student createStudent(@Valid @RequestBody Student student){
         return studentService.createStudent(student);
     }
 
     @PutMapping("/{id}")
-    public Student updateStudent(@PathVariable Long id, @RequestBody Student student){
+    public Student updateStudent(@PathVariable Long id, @Valid @RequestBody Student student){
         return studentService.updateStudent(id, student);
     }
 
