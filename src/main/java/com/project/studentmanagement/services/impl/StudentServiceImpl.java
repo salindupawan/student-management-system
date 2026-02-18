@@ -17,13 +17,21 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
 
     @Override
-    public Page<Student> getStudents(Pageable pageable) {
+    public Page<Student> getStudents(String keyword,Pageable pageable) {
+        if(keyword != null && !keyword.isEmpty()){
+            return studentRepository.findByFirstNameContainingIgnoreCase(keyword, pageable);
+        }
         return studentRepository.findAll(pageable);
     }
 
     @Override
     public Student getStudentById(Long id) {
         return studentRepository.findById(id).orElseThrow(()-> new RuntimeException("Student not found"));
+    }
+
+    @Override
+    public Student getStudentByEmail(String email) {
+        return studentRepository.findByEmail(email).orElseThrow(()-> new RuntimeException("Student not found"));
     }
 
     @Override

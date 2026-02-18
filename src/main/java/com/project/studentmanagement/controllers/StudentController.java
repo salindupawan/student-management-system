@@ -20,8 +20,13 @@ public class StudentController {
     private final StudentService studentService;
 
     @GetMapping()
-    public Page<Student> getStudents(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
-        return studentService.getStudents(pageable);
+    public Page<Student> getStudents(@RequestParam(required = false) String search, @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
+        return studentService.getStudents(search,pageable);
+    }
+
+    @GetMapping("/search")
+    public Student getStudentByEmail(@RequestParam String email) {
+        return studentService.getStudentByEmail(email);
     }
 
     @GetMapping("/{id}")

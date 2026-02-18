@@ -30,7 +30,7 @@ public class Student {
     private String lastName;
 
     @Email(message = "Enter valid email")
-    @Column(name = "email" ,length = 100, nullable = false)
+    @Column(name = "email" ,length = 100, nullable = false ,unique = true)
     private String email;
 
     @NotBlank(message = "Phone number is required.")

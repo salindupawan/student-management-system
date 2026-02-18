@@ -8,8 +8,9 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface StudentService {
-    Page<Student> getStudents(Pageable pageable);
+    Page<Student> getStudents(String keyword,Pageable pageable);
     Student getStudentById(Long id);
+    Student getStudentByEmail(String email);
     Student createStudent(Student student);
     Student updateStudent(Long id, Student student);
     void deleteStudent(Long id);
