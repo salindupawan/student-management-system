@@ -16,6 +16,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException e) {
+        System.out.println(e);
         ErrorResponse errorResponse = new ErrorResponse(LocalDateTime.now(), "NOT FOUND", e.getMessage(), HttpStatus.NOT_FOUND.value());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 
@@ -23,6 +24,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        System.out.println(e);
+
         Map<String, String> errors = new HashMap<>();
         e.getBindingResult().getFieldErrors().forEach((error) -> {
             errors.put(error.getField(), error.getDefaultMessage());
@@ -32,6 +35,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGlobalExceptions(Exception ex){
+        System.out.println(ex);
         ErrorResponse errorResponse = new ErrorResponse(LocalDateTime.now(), "INTERNAL SERVER ERROR", "Unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
